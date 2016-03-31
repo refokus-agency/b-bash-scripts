@@ -74,7 +74,7 @@ sudo useradd nodejs -m -s /bin/bash
 mkdir ~/.bons
 curl -O https://raw.githubusercontent.com/bons/b-bash-scripts/master/scripts/ssl.sh
 mv ssl.sh ~/.bons
-chmod 755
+chmod 755 ~/.bons/ssl.sh
 sudo ln -s ~/.bons/ssl.sh /usr/local/bin/b-ssl
 
 for i in "${programs[@]}"
