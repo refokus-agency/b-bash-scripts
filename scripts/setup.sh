@@ -66,7 +66,16 @@ export LC_ALL=C
 sudo echo "LC_ALL=en_US.UTF-8" > /etc/default/locale
 sudo echo "LANGUAGE=en_US" >> /etc/default/locale
 sudo echo "LANG=en_US.UTF-8" >> /etc/default/locale
+
+# Adding nodejs user
 sudo useradd nodejs -m -s /bin/bash
+
+# Installing ssl script
+mkdir ~/.bons
+curl -O https://raw.githubusercontent.com/bons/b-bash-scripts/master/scripts/ssl.sh
+mv ssl.sh ~/.bons
+chmod 755
+sudo ln -s ~/.bons/ssl.sh /usr/local/bin/b-ssl
 
 for i in "${programs[@]}"
 do
