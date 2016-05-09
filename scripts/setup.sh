@@ -4,7 +4,7 @@ GREEN='\033[0;32m'
 YELL='\033[0;33m'
 BLU='\033[0;34m'
 NC='\033[0m' # No Color
-programs=(Nodejs Gulp Foreverjs MongoDB)
+programs=(Nodejs Gulp Foreverjs MongoDB Git)
 
 function printInstallingMessage {
   printf "${GREEN}Installing $1...${NC}\n"
@@ -38,6 +38,11 @@ function installForever {
   sudo npm i -g forever
 }
 
+function installGit {
+  printInstallingMessage Git
+  sudo apt-get install -y git
+}
+
 function install {
   install=false
   while true; do
@@ -56,6 +61,7 @@ function install {
       Gulp) installGulp;;
       Foreverjs) installForever;;
       MongoDB) installMongo;;
+      Git) installGit;;
     esac
   fi
 }
