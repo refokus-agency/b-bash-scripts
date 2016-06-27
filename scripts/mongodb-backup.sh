@@ -34,5 +34,9 @@ fi
 
 DIR=`date +%y%m%d`
 DEST=/db_backups/$DIR
+EXPIRATION_DAYS=1
+#remove old versions
+find /db_backups/* -type d -ctime +$EXPIRATION_DAYS -exec rm -rf {} \;
+
 mkdir $DEST
 mongodump -h $HOSTNAME -d $DATABASE -o $DEST
