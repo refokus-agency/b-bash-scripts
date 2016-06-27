@@ -2,8 +2,12 @@
 
 HOSTNAME=""
 DATABASE=""
+ROOT=~/db_backups
+DIR=`date +%y%m%d`
+DEST=$ROOT/$DIR
+EXPIRATION_DAYS=1
 
-while [[ $# -gt 1 ]]
+while [ $# -gt 1 ]
 do
 key="$1"
 
@@ -32,11 +36,12 @@ if [ -z "$DATABASE" ]; then
   exit
 fi
 
-DIR=`date +%y%m%d`
-DEST=/db_backups/$DIR
-EXPIRATION_DAYS=1
+if [ ! -d "$ROOT" ]; then
+    mkdir $ROOT
+fi
+
 #remove old versions
-find /db_backups/* -type d -ctime +$EXPIRATION_DAYS -exec rm -rf {} \;
+find ~/db_backups/* -type d -ctime +$EXPIRATION_DAYS -exec rm -rf {} \;
 
 mkdir $DEST
 mongodump -h $HOSTNAME -d $DATABASE -o $DEST
