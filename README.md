@@ -6,5 +6,5 @@ Utils bash scripts
 
 Vagrantfiles
 
-- [bons-debian-jessie64](./vagrantfiles/bons-debian-jessie64/Vagrantfiles): Jessie64 based Vagrantfile, with nodejs, mongo and redis.
+- [bons-debian-jessie64](./vagrantfiles/bons-debian-jessie64/Vagrantfile): Jessie64 based Vagrantfile, with nodejs, mongo and redis.
 
