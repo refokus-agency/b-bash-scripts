@@ -4,7 +4,8 @@ GREEN='\033[0;32m'
 YELL='\033[0;33m'
 BLU='\033[0;34m'
 NC='\033[0m' # No Color
-programs=(Nodejs Gulp Foreverjs MongoDB Git)
+#programs=(Nodejs Gulp Foreverjs MongoDB Git)
+programs=(Nodejs Foreverjs MongoDB)
 
 function printInstallingMessage {
   printf "${GREEN}Installing $1...${NC}\n"
@@ -21,7 +22,7 @@ function installMongo {
   # Import the public key used by the package management system
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
   # Create a list file for MongoDB
-  echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+  echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
   # Reload local package database.
   sudo apt-get update
   # Install the MongoDB packages
@@ -58,10 +59,10 @@ function install {
   then
     case $1 in
       Nodejs) installNode;;
-      Gulp) installGulp;;
+      ##Gulp) installGulp;;
       Foreverjs) installForever;;
       MongoDB) installMongo;;
-      Git) installGit;;
+      #Git) installGit;;
     esac
   fi
 }
@@ -82,6 +83,9 @@ curl -O https://raw.githubusercontent.com/bons/b-bash-scripts/master/scripts/ssl
 mv ssl.sh ~/.bons
 chmod 755 ~/.bons/ssl.sh
 sudo ln -s ~/.bons/ssl.sh /usr/local/bin/b-ssl
+
+# Updating apt
+sudo apt-get update
 
 for i in "${programs[@]}"
 do
