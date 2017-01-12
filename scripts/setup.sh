@@ -4,17 +4,34 @@ GREEN='\033[0;32m'
 YELL='\033[0;33m'
 BLU='\033[0;34m'
 NC='\033[0m' # No Color
-#programs=(Nodejs Gulp Foreverjs MongoDB Git)
+
+UBUNTU_VERSION="xenial"
+MONGO_VERSION="3.2"
+
 programs=(Nodejs Foreverjs MongoDB)
+
+function _installNvm {
+  printInstallingMessage "nvm"
+  dest_script=/tmp/nvm_installer.sh
+  wget -O $dest_script https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh
+  chmod 755 $dest_script
+  $dest_script
+}
 
 function printInstallingMessage {
   printf "${GREEN}Installing $1...${NC}\n"
 }
 
 function installNode {
+
+  _installNvm
   printInstallingMessage Nodejs
-  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+
+  #This export is useful to avoid logout and reconnect
+  export NVM_DIR="$HOME/.nvm" 
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+  nvm install node
+
 }
 
 function installMongo {
@@ -22,7 +39,7 @@ function installMongo {
   # Import the public key used by the package management system
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
   # Create a list file for MongoDB
-  echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+  echo "deb http://repo.mongodb.org/apt/ubuntu $UBUNTU_VERSION/mongodb-org/$MONGO_VERSION multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-$MONGO_VERSION.list
   # Reload local package database.
   sudo apt-get update
   # Install the MongoDB packages
@@ -93,4 +110,4 @@ do
 done
 
 printf "${GREEN}Setup completed, enjoy! ^^${NC}\n"
-printf "Please use the user ${YELL}nodejs${NC} to run your nodejs process\n connect as nodejs using ${BLU}sudo su nodejs${NC}, add your public ssh key if you want"
+printf "Please use the user ${YELL}nodejs${NC} to run your nodejs process\n connect as nodejs using ${BLU}sudo su nodejs${NC}, add your public ssh key if you want\n"
