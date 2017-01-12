@@ -73,7 +73,7 @@ function installMongo {
 
 function installForever {
   printInstallingMessage Foreverjs
-  sudo npm i -g forever
+  npm i -g forever
 }
 
 
