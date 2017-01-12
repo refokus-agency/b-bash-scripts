@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 UBUNTU_VERSION="xenial"
 MONGO_VERSION="3.2"
 
-programs=(Nodejs Foreverjs MongoDB)
+programs=(Nodejs Foreverjs MongoDB python build-essential yarn)
 
 function _installNvm {
   printInstallingMessage "nvm"
@@ -16,10 +16,35 @@ function _installNvm {
   wget -O $dest_script https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh
   chmod 755 $dest_script
   $dest_script
+  rm $dest_script
 }
 
 function printInstallingMessage {
   printf "${GREEN}Installing $1...${NC}\n"
+}
+
+function installYarn {
+  if [ -f $HOME/.yarn ]; then
+    echo "Yarn already installed"
+    return
+  fi
+
+  printInstallingMessage "yarn"
+  dest_script=/tmp/yarn_installer.sh
+  wget -O $dest_script https://yarnpkg.com/install.sh
+  chmod 755 $dest_script
+  $dest_script
+  rm $dest_script
+}
+
+function installPython {
+  printInstallingMessage "python Ubuntu package"
+  sudo apt-get --yes install python
+}
+
+function installBuildEssential {
+  printInstallingMessage "build-essential Ubuntu package"
+  sudo apt-get --yes install build-essential
 }
 
 function installNode {
@@ -46,20 +71,11 @@ function installMongo {
   sudo apt-get install -y mongodb-org
 }
 
-function installGulp {
-  printInstallingMessage Gulp
-  sudo npm i -g gulp-cli
-}
-
 function installForever {
   printInstallingMessage Foreverjs
   sudo npm i -g forever
 }
 
-function installGit {
-  printInstallingMessage Git
-  sudo apt-get install -y git
-}
 
 function install {
   install=false
@@ -75,11 +91,12 @@ function install {
   if [ $install = true ]
   then
     case $1 in
+      build-essential) installBuildEssential;;
+      python) installPython;;
       Nodejs) installNode;;
-      ##Gulp) installGulp;;
       Foreverjs) installForever;;
       MongoDB) installMongo;;
-      #Git) installGit;;
+      yarn) installYarn;;
     esac
   fi
 }
@@ -111,3 +128,4 @@ done
 
 printf "${GREEN}Setup completed, enjoy! ^^${NC}\n"
 printf "Please use the user ${YELL}nodejs${NC} to run your nodejs process\n connect as nodejs using ${BLU}sudo su nodejs${NC}, add your public ssh key if you want\n"
+printf "Note that if you want to use ${YELL}yarn${NC} or ${YELL}nvm${NC} you most logout and reconnect\n"
