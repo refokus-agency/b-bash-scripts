@@ -69,6 +69,10 @@ function installMongo {
   sudo apt-get update
   # Install the MongoDB packages
   sudo apt-get install -y mongodb-org
+
+  sudo cp -af systemd-services/mongodb.service /etc/systemd/system/
+  sudo systemctl enable mongodb
+  sudo systemctl start mongodb
 }
 
 function installForever {
